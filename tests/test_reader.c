@@ -30,7 +30,7 @@ static void test_reader_open_nonexistent(void) {
 }
 
 static void test_reader_open_invalid_file(void) {
-    const char *tmp_path = "/tmp/cmdx_test_invalid.mdx";
+    const char *tmp_path = "cmdx_test_invalid.mdx";
     FILE *fp = fopen(tmp_path, "wb");
     TEST_ASSERT_NOT_NULL(fp);
     const char *garbage = "this is not a valid mdx file";
