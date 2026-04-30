@@ -25,8 +25,3 @@ target_include_directories(cmdx_tests PRIVATE ${TEST_INCLUDE_DIRS})
 target_link_libraries(cmdx_tests PRIVATE cmdx)
 
 add_test(NAME cmdx_test_suite COMMAND cmdx_tests)
-
-# Probe tool
-add_executable(cmdx_probe test_probe.c test_fixture.c unity/unity.c)
-target_include_directories(cmdx_probe PRIVATE ${TEST_INCLUDE_DIRS})
-target_link_libraries(cmdx_probe PRIVATE cmdx)
