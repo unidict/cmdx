@@ -72,6 +72,7 @@ endif()
 if(MSVC)
     # C11 atomics still experimental in MSVC; required by deps/uobject
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /experimental:c11atomics")
+    target_compile_definitions(cmdx PRIVATE _CRT_SECURE_NO_WARNINGS)
     target_compile_options(cmdx PRIVATE /W4)
 else()
     target_compile_options(cmdx PRIVATE -Wall -Wextra)

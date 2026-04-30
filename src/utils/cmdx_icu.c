@@ -8,6 +8,9 @@
 #include "cmdx_icu.h"
 #include <string.h>
 #include <stdlib.h>
+#ifdef _MSC_VER
+#define strcasecmp _stricmp
+#endif
 #include <unicode/ustring.h>
 #include <unicode/ubrk.h>
 
