@@ -1,0 +1,30 @@
+*.xcuserstate
+.DS_Store
+.claude/
+
+# Xcode
+czim.xcodeproj/xcuserdata/
+
+# Build artifacts
+build/
+build-cmake/
+cmake-build-*/
+CMakeUserPresets.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Compiled objects
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.lib
+*.so
+*.dylib
+*.dll

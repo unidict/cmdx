@@ -1,0 +1,3 @@
+[submodule "deps/uobject"]
+	path = deps/uobject
+	url = https://github.com/unidict/uobject.git
