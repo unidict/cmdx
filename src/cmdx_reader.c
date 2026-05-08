@@ -332,7 +332,7 @@ cmdx_key_entry_list *cmdx_get_key_entries_by_key(cmdx_reader *reader,
     }
 
     size_t capacity = 8;
-    if (capacity > max_count) {
+    if (max_count > 0 && capacity > max_count) {
         capacity = max_count;
     }
     if (capacity > 0) {
@@ -350,7 +350,7 @@ cmdx_key_entry_list *cmdx_get_key_entries_by_key(cmdx_reader *reader,
     list->items[list->count++] = key_entry;
 
     // Collect subsequent matching key entries
-    size_t remaining = max_count - 1;
+    size_t remaining = (max_count > 0) ? max_count - 1 : SIZE_MAX;
     key_entry = key_entry->next;
 
     while (remaining > 0) {
@@ -363,8 +363,9 @@ cmdx_key_entry_list *cmdx_get_key_entries_by_key(cmdx_reader *reader,
             if (cmp == 0) {
                 // Grow if needed
                 if (list->count >= capacity) {
+                    size_t grow_max = max_count > 0 ? max_count : SIZE_MAX;
                     if (!list_grow((void **)&list->items, &capacity,
-                                   sizeof(cmdx_key_entry *), max_count)) {
+                                   sizeof(cmdx_key_entry *), grow_max)) {
                         break;
                     }
                 }

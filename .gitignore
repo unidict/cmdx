@@ -1,9 +1,6 @@
-*.xcuserstate
+xcuserdata/
 .DS_Store
 .claude/
-
-# Xcode
-czim.xcodeproj/xcuserdata/
 
 # Build artifacts
 build/
