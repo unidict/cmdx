@@ -35,6 +35,16 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install icu4c
 
+      - name: Cache vcpkg packages (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/cache@v4
+        with:
+          path: |
+            C:\vcpkg\installed
+            C:\vcpkg\packages
+          key: vcpkg-windows-${{ hashFiles('**/CMakeLists.txt') }}
+          restore-keys: vcpkg-windows-
+
       - name: Install dependencies (Windows)
         if: runner.os == 'Windows'
         run: vcpkg install zlib:x64-windows icu:x64-windows libiconv:x64-windows
