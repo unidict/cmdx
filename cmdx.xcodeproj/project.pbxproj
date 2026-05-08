@@ -456,7 +456,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "/opt/homebrew/opt/icu4c/include/**";
+				HEADER_SEARCH_PATHS = /opt/homebrew/opt/icu4c/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/opt/homebrew/Cellar/icu4c@78/78.2/lib/**",
@@ -472,7 +472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = "/opt/homebrew/opt/icu4c/include/**";
+				HEADER_SEARCH_PATHS = /opt/homebrew/opt/icu4c/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/opt/homebrew/Cellar/icu4c@78/78.2/lib/**",
