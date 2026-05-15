@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdatomic.h>
 #include <zlib.h>
 #include "minilzo.h"
 #include "cmdx_endian.h"
@@ -19,23 +20,31 @@
 // Internal helper functions
 // ============================================================
 
+static atomic_int lzo_initialized = 0;
+
 /**
- * Initialize minilzo library (thread-safe one-time init)
+ * Initialize minilzo library.
+ *
+ * Uses atomic_int instead of a plain int to guarantee memory visibility:
+ * once one thread stores the result, all subsequent calls on any thread
+ * will observe it and skip the init.  This does NOT prevent concurrent
+ * re-entry — two threads may both see 0 and call lzo_init() — but that
+ * is acceptable because lzo_init() is a pure, idempotent check of
+ * sizeof/endian/alignment with no side effects.
+ *
  * @return 0 on success, -1 on failure
  */
 static int init_minilzo(void) {
-    static int initialized = 0;
-    if (initialized) {
-        return 0;
+    int state = atomic_load(&lzo_initialized);
+    if (state == 0) {
+        int ret = lzo_init();
+        state = (ret == LZO_E_OK) ? 1 : -1;
+        atomic_store(&lzo_initialized, state);
     }
-
-    int ret = lzo_init();
-    if (ret != LZO_E_OK) {
-        fprintf(stderr, "Error: lzo_init() failed (return code: %d)\n", ret);
+    if (state < 0) {
+        fprintf(stderr, "Error: lzo_init() previously failed\n");
         return -1;
     }
-
-    initialized = 1;
     return 0;
 }
 
