@@ -416,30 +416,63 @@ cmdx_data *cmdx_get_content_record_by_key_entry(cmdx_reader *reader,
         return NULL;
     }
 
-    uint64_t content_offset = key_entry->content_logical_offset;
+    uint64_t offset = key_entry->content_logical_offset;
+    uint64_t size;
 
-    // Binary search for the content block index containing this offset
-    cmdx_content_block_index *content_block_index =
-        ud_mdict_content_block_index_bsearch(reader->content_section,
-                                             content_offset);
-    if (!content_block_index) {
+    if (key_entry->next) {
+        size = key_entry->next->content_logical_offset - offset;
+    } else {
+        cmdx_content_block_index *block_index =
+            ud_mdict_content_block_index_bsearch(reader->content_section, offset);
+        if (!block_index) return NULL;
+        size = block_index->end_logical_offset - offset;
+    }
+
+    return cmdx_get_content_by_offset(reader, offset, size);
+}
+
+cmdx_data *cmdx_get_content_by_offset(cmdx_reader *reader,
+                                       uint64_t offset, uint64_t size) {
+    if (!reader || size == 0) {
         return NULL;
     }
 
-    // Get content block (cached)
-    cmdx_content_block *content_block =
-        content_block_get_retained(reader, content_block_index);
-    if (!content_block) {
+    cmdx_content_block_index *block_index =
+        ud_mdict_content_block_index_bsearch(reader->content_section, offset);
+    if (!block_index) {
         return NULL;
     }
 
-    // Extract record data from the content block
-    cmdx_data *record = cmdx_content_record_extract(
-        key_entry, content_block_index, content_block);
+    cmdx_content_block *block =
+        content_block_get_retained(reader, block_index);
+    if (!block || !block->data) {
+        if (block) uobject_release(&block->obj);
+        return NULL;
+    }
 
-    // Release content block reference
-    uobject_release(&content_block->obj);
+    uint64_t offset_in_block = offset - block_index->logical_offset;
+    if (offset_in_block + size > block_index->decomp_size) {
+        uobject_release(&block->obj);
+        return NULL;
+    }
 
+    size_t copy_len = (size_t)size;
+    uint8_t *content = (uint8_t *)malloc(copy_len);
+    if (!content) {
+        uobject_release(&block->obj);
+        return NULL;
+    }
+
+    memcpy(content, block->data + offset_in_block, copy_len);
+    uobject_release(&block->obj);
+
+    cmdx_data *record = calloc(1, sizeof(cmdx_data));
+    if (!record) {
+        free(content);
+        return NULL;
+    }
+    record->data = content;
+    record->length = copy_len;
     return record;
 }
 

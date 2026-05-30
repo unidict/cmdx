@@ -48,6 +48,12 @@ cmdx_data_list *cmdx_get_content_records_by_key(cmdx_reader *reader,
 cmdx_data *cmdx_get_content_record_by_key_entry(cmdx_reader *reader,
                                                  cmdx_key_entry *key_entry);
 
+// Read content by logical offset and size (bypasses key entry lookup).
+// offset = content_logical_offset from a cmdx_key_entry.
+// size = pre-computed record size (e.g. next_entry->content_logical_offset - offset).
+cmdx_data *cmdx_get_content_by_offset(cmdx_reader *reader,
+                                       uint64_t offset, uint64_t size);
+
 // ============================================================
 // Iterator
 // ============================================================

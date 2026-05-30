@@ -57,10 +57,6 @@ ud_mdict_content_block_index_bsearch(cmdx_content_section *content_sec,
 cmdx_content_block *cmdx_content_block_read(
     FILE *fp, cmdx_meta *meta,
     cmdx_content_block_index *content_block_index);
-
-cmdx_data *cmdx_content_record_extract(
-    cmdx_key_entry *key_entry,
-    cmdx_content_block_index *content_block_index, cmdx_content_block *content_block);
 #ifdef __cplusplus
 }
 #endif

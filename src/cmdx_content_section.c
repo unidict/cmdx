@@ -432,51 +432,6 @@ cmdx_content_block *cmdx_content_block_read(
     return block;
 }
 
-cmdx_data *cmdx_content_record_extract(
-    cmdx_key_entry *key_entry,
-    cmdx_content_block_index *content_block_index, cmdx_content_block *content_block) {
-    if (!key_entry || !content_block_index || !content_block) {
-        return NULL;
-    }
-
-    uint64_t content_logical_offset = key_entry->content_logical_offset;
-
-    uint8_t *block_data = content_block->data;
-    if (!block_data) {
-        return NULL;
-    }
-
-    uint64_t offset_in_current_block =
-        content_logical_offset - content_block_index->logical_offset;
-    uint64_t content_length =
-        key_entry->next
-            ? (key_entry->next->content_logical_offset - content_logical_offset)
-            : (content_block_index->end_logical_offset -
-               content_logical_offset);
-
-    if (offset_in_current_block + content_length >
-        content_block_index->decomp_size) {
-        return NULL;
-    }
-
-    size_t copy_len = (size_t)content_length;
-    uint8_t *content = (uint8_t *)malloc(copy_len);
-    if (!content) {
-        return NULL;
-    }
-
-    memcpy(content, block_data + offset_in_current_block, copy_len);
-
-    cmdx_data *record = calloc(1, sizeof(cmdx_data));
-    if (!record) {
-        free(content);
-        return NULL;
-    }
-    record->data = content;
-    record->length = copy_len;
-    return record;
-}
-
 // MARK: - Private functions
 
 static int cmdx_content_block_index_compare(
