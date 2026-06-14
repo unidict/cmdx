@@ -56,7 +56,7 @@
 
 /* Begin PBXFileReference section */
 		69F081B02F9CD0CC0045BB3B /* libcmdx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcmdx.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		69F085092FA05E3A0045BB3B /* tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tests; sourceTree = BUILT_PRODUCTS_DIR; };
+		69F085092FA05E3A0045BB3B /* cmdx-tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "cmdx-tests"; sourceTree = BUILT_PRODUCTS_DIR; };
 		69F0C7352FA8709B0045BB3B /* libicui18n.78.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.78.2.dylib; path = "../../../../../../../opt/homebrew/Cellar/icu4c@78/78.2/lib/libicui18n.78.2.dylib"; sourceTree = "<group>"; };
 		69F0C7362FA8709B0045BB3B /* libicuuc.78.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.78.2.dylib; path = "../../../../../../../opt/homebrew/Cellar/icu4c@78/78.2/lib/libicuuc.78.2.dylib"; sourceTree = "<group>"; };
 		69F0C7372FA8709B0045BB3B /* libicudata.78.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.78.2.dylib; path = "../../../../../../../opt/homebrew/Cellar/icu4c@78/78.2/lib/libicudata.78.2.dylib"; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				69F081B02F9CD0CC0045BB3B /* libcmdx.a */,
-				69F085092FA05E3A0045BB3B /* tests */,
+				69F085092FA05E3A0045BB3B /* cmdx-tests */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -222,9 +222,9 @@
 			productReference = 69F081B02F9CD0CC0045BB3B /* libcmdx.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		69F085082FA05E3A0045BB3B /* tests */ = {
+		69F085082FA05E3A0045BB3B /* cmdx-tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 69F0850D2FA05E3A0045BB3B /* Build configuration list for PBXNativeTarget "tests" */;
+			buildConfigurationList = 69F0850D2FA05E3A0045BB3B /* Build configuration list for PBXNativeTarget "cmdx-tests" */;
 			buildPhases = (
 				69F085052FA05E3A0045BB3B /* Sources */,
 				69F085062FA05E3A0045BB3B /* Frameworks */,
@@ -239,11 +239,11 @@
 			fileSystemSynchronizedGroups = (
 				69F0850A2FA05E3A0045BB3B /* tests */,
 			);
-			name = tests;
+			name = "cmdx-tests";
 			packageProductDependencies = (
 			);
 			productName = tests;
-			productReference = 69F085092FA05E3A0045BB3B /* tests */;
+			productReference = 69F085092FA05E3A0045BB3B /* cmdx-tests */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -278,7 +278,7 @@
 			projectRoot = "";
 			targets = (
 				69F081AF2F9CD0CC0045BB3B /* cmdx */,
-				69F085082FA05E3A0045BB3B /* tests */,
+				69F085082FA05E3A0045BB3B /* cmdx-tests */,
 			);
 		};
 /* End PBXProject section */
@@ -505,7 +505,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		69F0850D2FA05E3A0045BB3B /* Build configuration list for PBXNativeTarget "tests" */ = {
+		69F0850D2FA05E3A0045BB3B /* Build configuration list for PBXNativeTarget "cmdx-tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				69F0850E2FA05E3A0045BB3B /* Debug */,
