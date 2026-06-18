@@ -201,7 +201,9 @@ static bool mb_get_sort_key(const uint8_t *mb_str, size_t mb_str_len,
     return true;
 }
 
-// Write uint16 to buffer (native byte order)
+// Write uint16 to buffer in native (little-endian) byte order.
+// NOTE: assumes a little-endian host. The sort key is compared with
+// memcmp, and UTF-16LE keys produce LE sort keys on LE hosts via memcpy.
 static bool write_uint16_native(ud_dynamic_buffer *buf, uint16_t value) {
     if (buf == NULL) {
         return false;
@@ -233,13 +235,12 @@ static bool wc_get_sort_key(const uint8_t *wc_str, size_t wc_str_len,
         return false;
     }
 
-    // Read UTF-16LE characters one by one
+    // Read UTF-16LE characters one by one.
+    // NOTE: assumes a little-endian host (x86 / ARM). On LE, memcpy loads
+    // the UTF-16LE bytes directly into the correct code-unit value.
     for (size_t i = 0; i < wc_str_len; i += 2) {
         uint16_t wc = 0;
-
-        // Read UTF-16LE
         memcpy(&wc, wc_str + i, 2);
-        wc = BSWAP16(wc);
 
         if (wc <= 0xff) {
             uint8_t ch = (uint8_t)wc;
