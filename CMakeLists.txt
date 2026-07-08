@@ -49,12 +49,11 @@ add_library(cmdx ${CMDX_SOURCES})
 target_include_directories(cmdx
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/utils>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/crypto
-
         ${CMAKE_CURRENT_SOURCE_DIR}/src/minilzo
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/utils
         ${CMAKE_CURRENT_SOURCE_DIR}/deps/uobject/src
 )
 

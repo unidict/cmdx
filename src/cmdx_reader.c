@@ -20,6 +20,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#endif
+
 // ============================================================
 // Reader struct definition (internal only)
 // ============================================================
