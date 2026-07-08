@@ -48,6 +48,14 @@ cmdx_data_list *cmdx_get_content_records_by_key(cmdx_reader *reader,
 cmdx_data *cmdx_get_content_record_by_key_entry(cmdx_reader *reader,
                                                  cmdx_key_entry *key_entry);
 
+// Compute the content size for a key entry.
+// For entries with a valid `next`, uses next->content_logical_offset - offset.
+// For the last entry in a key block (next == NULL), uses the containing
+// content block's end_logical_offset - offset.
+// Returns 0 on failure.
+uint64_t cmdx_get_content_size_for_entry(cmdx_reader *reader,
+                                         cmdx_key_entry *key_entry);
+
 // Read content by logical offset and size (bypasses key entry lookup).
 // offset = content_logical_offset from a cmdx_key_entry.
 // size = pre-computed record size (e.g. next_entry->content_logical_offset - offset).

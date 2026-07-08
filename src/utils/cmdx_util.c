@@ -21,16 +21,21 @@
 
 int cmdx_encoding_to_utf8(const uint8_t *str_bytes, size_t str_bytes_len,
                           cmdx_encoding encoding, char **output) {
-    if (str_bytes_len == 0) {
-        *output = "";
-        return 0;
-    }
-
     if (str_bytes == NULL || output == NULL) {
         return -1;
     }
 
     *output = NULL;
+
+    if (str_bytes_len == 0) {
+        *output = (char *)malloc(1);
+        if (*output == NULL) {
+            fprintf(stderr, "Error: failed to allocate UTF-8 buffer\n");
+            return -1;
+        }
+        (*output)[0] = '\0';
+        return 0;
+    }
 
     if (str_bytes_len > SIZE_MAX / 2) {
         fprintf(stderr, "Error: input string too long\n");

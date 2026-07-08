@@ -170,7 +170,7 @@ static bool mb_get_sort_key(const uint8_t *mb_str, size_t mb_str_len,
                 (is_gbk_encoding && is_gbk(ch, nextch))) {
                 buffer_push(&buf, ch);
                 buffer_push(&buf, nextch);
-                i+=2; // Skip next byte
+                i++; // Skip next byte (for loop will add 1 more)
                 continue;
             }
         }

@@ -113,6 +113,10 @@ cmdx_reader *cmdx_reader_open(const char *file_path,
         return NULL;
     }
 
+    // Determine file type by extension
+    const char *ext = strrchr(file_path, '.');
+    reader->meta->is_mdx = (ext && strcasecmp(ext, ".mdx") == 0);
+
     // Create ICU collator for key comparison
     if (reader->meta->default_sorting_locale) {
         reader->collator = cmdx_icu_collator_open(reader->meta->default_sorting_locale);
@@ -429,6 +433,27 @@ cmdx_data *cmdx_get_content_record_by_key_entry(cmdx_reader *reader,
     }
 
     return cmdx_get_content_by_offset(reader, offset, size);
+}
+
+uint64_t cmdx_get_content_size_for_entry(cmdx_reader *reader,
+                                         cmdx_key_entry *key_entry) {
+    if (!reader || !key_entry) {
+        return 0;
+    }
+
+    uint64_t offset = key_entry->content_logical_offset;
+
+    if (key_entry->next) {
+        return key_entry->next->content_logical_offset - offset;
+    }
+
+    // Last entry in key block: fall back to content block boundary.
+    cmdx_content_block_index *block_index =
+        ud_mdict_content_block_index_bsearch(reader->content_section, offset);
+    if (!block_index) {
+        return 0;
+    }
+    return block_index->end_logical_offset - offset;
 }
 
 cmdx_data *cmdx_get_content_by_offset(cmdx_reader *reader,
